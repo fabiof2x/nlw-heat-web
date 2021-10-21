@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useEffect, useState } from "react";
+import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import { api } from "../services/api";
 
 type User = {
@@ -43,6 +43,8 @@ export function AuthProvider(props: AuthProvider) {
 
     localStorage.setItem('@dowhile:token', token)
 
+    api.defaults.headers.common.authorization = `Bearer ${token}`;
+
     setUser(user)
   }
 
@@ -81,4 +83,8 @@ export function AuthProvider(props: AuthProvider) {
       {props.children}
     </AuthContext.Provider>
   );
+}
+
+export function useAuth() {
+  return useContext(AuthContext);
 }
